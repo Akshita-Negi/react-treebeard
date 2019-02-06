@@ -20,17 +20,17 @@ Loading.propTypes = {
     style: PropTypes.object
 };
 
-const Toggle = ({style}) => {
-    const {height, width} = style;
+const Toggle = (props) => {
+    const {height, width} = props.style;
     const midHeight = height * 0.5;
     const points = `0,0 0,${height} ${width},${midHeight}`;
 
     return (
-        <Div style={style.base}>
-            <Div style={style.wrapper}>
+        <Div style={props.style.base}>
+            <Div style={props.style.wrapper}>
                 <svg height={height} width={width}>
                     <Polygon points={points}
-                             style={style.arrow}/>
+                             style={props.style.arrow}/>
                 </svg>
             </Div>
         </Div>
@@ -40,11 +40,11 @@ Toggle.propTypes = {
     style: PropTypes.object
 };
 
-const Header = ({node, style}) => {
+const Header = (props) => {
     return (
-        <Div style={style.base}>
-            <Div style={style.title}>
-                {node.name}
+        <Div style={props.style.base}>
+            <Div style={props.style.title}>
+                {props.node.name}
             </Div>
         </Div>
     );
@@ -56,7 +56,7 @@ Header.propTypes = {
 
 class Container extends React.Component {
     render() {
-        const {style, decorators, terminal, onClick, node} = this.props;
+        const {style, decorators, terminal, onClick, node, extra} = this.props;
 
         return (
             <div onClick={onClick}
@@ -65,7 +65,8 @@ class Container extends React.Component {
                 {!terminal ? this.renderToggle() : null}
 
                 <decorators.Header node={node}
-                                   style={style.header}/>
+                                   style={style.header}
+                                   extra={extra}/>
             </div>
         );
     }
@@ -87,9 +88,9 @@ class Container extends React.Component {
     }
 
     renderToggleDecorator() {
-        const {style, decorators} = this.props;
+        const {style, decorators, extra} = this.props;
 
-        return <decorators.Toggle style={style.toggle}/>;
+        return <decorators.Toggle style={style.toggle} extra={extra}/>;
     }
 }
 Container.propTypes = {
